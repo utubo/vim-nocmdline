@@ -17,7 +17,7 @@ nocmdline is a Vim plugin emulate statusline with `echo`.
   ⋮
   dein# add('utubo/vim-nocmdline')
   ⋮
-  g:nocmdline = {}
+  g:nocmdline = get(g:, 'nocmdline', {})
   g:nocmdline.format = '%t %m%r %=%`%3l:%-2c%`%{&ff} %{&fenc} %L'
   # require nerd fonts
   g:nocmdline.tail = "\ue0be"
