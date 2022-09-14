@@ -1,4 +1,4 @@
-# nocmdline.vim
+# vim-nocmdline
 
 ⚠ THIS HAS MANY BUGS !  
 📜 Powered by vim9script
