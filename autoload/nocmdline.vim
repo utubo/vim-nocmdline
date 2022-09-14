@@ -348,6 +348,7 @@ def EchoNextLine(winid: number, winnr: number)
   if linenr > line('$', winid)
     echoh NonText
     echon printf($'%-{winwidth(winnr) - 1}S', NVL(matchstr(&fcs, '\(eob:\)\@<=.'), '~'))
+    echoh Normal
     return
   endif
   # sign & line-number
@@ -372,6 +373,7 @@ def EchoNextLine(winid: number, winnr: number)
     echoh NonText
     echon '>'
   endif
+  echoh Normal
 enddef
 
 def EchoStlWin(winid: number)
