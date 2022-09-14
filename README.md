@@ -31,6 +31,8 @@ also, Zen mode (emulates the next line). 🧘
   g:nocmdline.sep  = "\ue0bc"
   g:nocmdline.sub  = "\ue0bb"
   nnoremap ZZ <ScriptCmd>nocmdline# ToggleZen()<CR>
+  # You can disable nocmdline at VimEnter
+  #g:nocmdline.at_start = 0
   ```
 
 
@@ -52,7 +54,9 @@ Zen echos the next line instead of statusline.
 
 - `at_start`  
   number.  
-  `0`: prevent start nocmdline at `VimEnter`. `default` is `1`.  
+  `0`: disable nocmdline at VimEnter.  
+  `1`: enable nocmdline at VimEnter.  
+  `default` is `1`.  
 - `delay`  
   seconds of show statusline when return from Command-mode.  
   default is `&updatetime` / 1000.
