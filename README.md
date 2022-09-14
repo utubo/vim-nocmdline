@@ -71,11 +71,13 @@ nocmdline supports these only.
 
 ```
 t S   File name (tail) of file in the buffer.
-m F   Modified flag, text is "[+]"; "[-]" if 'modifiable' is off. r F   Readonly flag, text is "[RO]".
+m F   Modified flag, text is "[+]"; "[-]" if 'modifiable' is off.
+r F   Readonly flag, text is "[RO]".
 l N   Line number.
 L N   Number of lines in buffer.
 c N   Column number (byte index).
-{ NF  Evaluate expression between '%{' and '}' and substitute result. = -   Separation point between left and right aligned items.
+{ NF  Evaluate expression between '%{' and '}' and substitute result.
+= -   Separation point between left and right aligned items.
 ```
 
 and `%|` sugar-coats `%{g:nocmdline.sub}`
