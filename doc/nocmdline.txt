@@ -1,0 +1,163 @@
+*nocmdline.txt*
+
+Author  : utubo
+License : MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+CONTENTS					*nocmdline-contents*
+
+INTRODUCTION			|nocmdline-introduction|
+USAGE				|nocmdline-usage|
+INTERFACE			|nocmdline-interface|
+  VARIABLES			  |nocmdline-variables|
+  COLORS			  |nocmdline-colors|
+
+
+==============================================================================
+INTRODUCTION					*nocmdline-introduction*
+
+*nocmdline* is a Vim plugin emulate statusline with `echo`.
+
+Latest version:
+https://github.com/utubo/vim-nocmdline
+
+
+==============================================================================
+USAGE						*nocmdline-usage*
+
+Require
+	vim9script
+
+Install
+
+	Example of `.vimrc`
+>
+		vim9script
+		⋮
+		dein#add('utubo/vim-nocmdline')
+		⋮
+		g:nocmdline = {}
+		g:nocmdline.format = '%t %m%r %=%|%3l:%-2c%|%{&ff} %{&fenc} %L'
+		# require nerd fonts
+		g:nocmdline.tail = "\ue0be"
+		g:nocmdline.sep  = "\ue0bc"
+		g:nocmdline.sub  = "\ue0bb"
+		nnoremap ZZ <ScriptCmd>nocmdline#ToggleZen()<CR>
+<
+
+
+==============================================================================
+INTERFACE					*nocmdline-interface*
+
+nocmdline#Invalidate()				*nocmdline#Invalidate*
+	Update statusline.
+
+nocmdline#ToggleZen([{enable}])			*nocmdline#ToggleZen*
+	Toggle Zen mode.
+	Zen echos next line instead of statusline.
+	(sorry, Zen don't support hilight, tabstop, conceal and others...)
+	{enable} is number `0`(disable) or `1`(enable).
+
+------------------------------------------------------------------------------
+VARIABLES					*nocmdline-variables*
+
+g:nocmdline					*g:nocmdline*
+	`g:nocmdline` is dictionaly.
+		`at_start`	number.
+				`0`: prevent start nocmdline at `VimEnter`.
+				default is `1`.
+		`delay`		seconds of show statusline when return from
+				Command-mode.
+				default is `&updatetime` / 1000.
+		`zen`		number.
+				`0`: disable zen mode.
+				`1`: enable zen mode.
+				default is `0`.
+		`tail`		the char of right of statusline.
+		`sep`		the char of the separator of the mode.
+		`sub`		the char of the sub separator.
+		`horiz`		the char of the horizontal line on zen mode.
+		`format`	the format of statusline.
+				see g:nocmdline.format
+		`mode`		the names of mode.
+				see g:nocmdline.mode
+
+g:nocmdline.format					*g:nocmdline.format*
+	see `:help statusline` .
+	nocmdline supports these only.
+
+	t S   File name (tail) of file in the buffer.
+	m F   Modified flag, text is "[+]"; "[-]" if 'modifiable' is off.
+	r F   Readonly flag, text is "[RO]".
+	l N   Line number.
+	L N   Number of lines in buffer.
+	c N   Column number (byte index).
+	{ NF  Evaluate expression between '%{' and '}' and substitute result.
+	= -   Separation point between left and right aligned items.
+
+	and `%|` sugar-coats `%{g:nocmdline.sub}`
+
+g:nocmdline.mode					*g:nocmdline.mode*
+	see `:help mode()` .
+>
+	# default
+	g:nocmdline.mode = {
+		n:	'Normal',
+		v:	'Visual',
+		V:	'V-Line',
+		'^V':	'V-Block',
+		s:	'Select',
+		S:	'S-Line',
+		'^S':	'S-Block',
+		i:	'Insert',
+		R:	'Replace',
+		c:	'Command',
+		r:	'Prompt',
+		t:	'Terminal',
+		'!':	'Shell',
+		'*':	'      ', # for unknown mode.
+		'NC':	'------', # for not-current windows.
+	}
+<
+
+------------------------------------------------------------------------------
+COLORS							*nocmdline-colors*
+	the mode colors.
+	Hilight group		Default color
+	NoCmdline		StatusLine
+	NoCmdlineNormal		ToolBarButton
+	NoCmdlineVisual		Visual
+	NoCmdlineVisualLine	VisualNOS
+	NoCmdlineVisualBlock	link to NoCmdlineVisualLine
+	NoCmdlineSelect		DiffChange
+	NoCmdlineSelectLine	link to NoCmdlineSelect
+	NoCmdlineSelectBlock	link to NoCmdlineSelect
+	NoCmdlineInsert		DiffAdd
+	NoCmdlineReplace	DiffChange
+	NoCmdlineCommand	WildMenu
+	NoCmdlinePrompt		Search
+	NoCmdlineTerm	 	StatusLineTerm
+	NoCmdlineShell	 	StatusLineTermNC
+	NoCmdlineModeNC		StatusLineNC		for not-current windows.
+	NoCmdlineOther	 	link to NoCmdlineModeNC	for unknown mode.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:
