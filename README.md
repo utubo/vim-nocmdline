@@ -66,7 +66,8 @@ Zen echos the next line instead of statusline.
 - `sep`  
   the char of the separator of the mode.
 - `sub`  
-  the char of the sub separator.
+  the char of the sub-separators.  
+  default is `|`
 - `horiz`  
   the char of the horizontal line on zen mode.
 - `format`  
