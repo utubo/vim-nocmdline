@@ -185,7 +185,7 @@ enddef
 
 def SetupColor()
   if g:nocmdline.zen ==# 1
-    silent! hi link NoCmdlineHoriz VertSplit
+    silent! hi default link NoCmdlineHoriz VertSplit
     return
   endif
   const colorscheme = get(g:nocmdline, 'colorscheme', get(g:, 'colors_name', ''))
@@ -197,9 +197,9 @@ def SetupColor()
   endif
   const x = has('gui') ? 'gui' : 'cterm'
   for [k,v] in colors->items()
-      if !hlexists(v[0])
+    if !hlexists(v[0]) || get(hlget(v[0]), 0, {})->get('cleared', false)
         if v[1] =~# '^link to'
-          silent! execute $'hi link {v[0]} {v[1]->substitute("link to", "", "")}'
+          silent! execute $'hi default link {v[0]} {v[1]->substitute("link to", "", "")}'
         else
           const lnk = GetFgBg(v[1])
           execute $'hi {v[0]} {x}fg={lnk.fg} {x}bg={lnk.bg} {x}=bold'
