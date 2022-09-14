@@ -1,10 +1,17 @@
 # nocmdline.vim
 
-⚠ THIS HAS MANY BUGS !
+⚠ THIS HAS MANY BUGS !  
+📜 Powered by vim9script
 
 ## INTRODUCTION
-nocmdline is a Vim plugin emulate statusline with `echo`.
+nocmdline is a Vim plugin emulates statusline with `echo`.  
+So, it looks like `cmdheight=0`.
 
+<img width="600" src="https://user-images.githubusercontent.com/6848636/190131571-b58d55a4-c258-42d9-bf4a-379cc8106490.png">
+
+also, Zen mode (emulates the next line). 🧘
+
+<img width="600" src="https://user-images.githubusercontent.com/6848636/190131844-dd95d5d4-0f18-44c1-a50b-35bddec8e1c6.png">
 
 ## USAGE
 ### Require
@@ -28,12 +35,14 @@ nocmdline is a Vim plugin emulate statusline with `echo`.
 
 
 ## INTERFACE
-### `nocmdline# Invalidate()`
+
+### API
+#### `nocmdline#Invalidate()`
 Update statusline.
 
-### `nocmdline#ToggleZen([{enable}])`
+#### `nocmdline#ToggleZen([{enable}])`
 Toggle Zen mode.  
-Zen echos next line instead of statusline.  
+Zen echos the next line instead of statusline.  
 (sorry, Zen don't support hilight, tabstop, conceal and others...)  
 `enable` is number `0`(disable) or `1`(enable).
 
@@ -81,6 +90,8 @@ c N   Column number (byte index).
 ```
 
 and `%|` sugar-coats `%{g:nocmdline.sub}`
+
+`%{expr}` evalute expr with legacy vimscript. (not vim9script)
 
 #### `g:nocmdline.mode`
 see `:help mode()`.
