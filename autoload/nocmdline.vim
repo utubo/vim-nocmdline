@@ -59,7 +59,7 @@ def Truncate(s: string, vc: number): string
     return '<'
   endif
   const a = s->split('.\zs')->reverse()->join('')
-  return '<' .. printf($'%.{vc - 1}S', a)->split('.\zs')->reverse()->join('')
+  return '<' .. printf($'%.{vc - 1}S', a .. ' ')->split('.\zs')->reverse()->join('')
 enddef
 
 # --------------------
