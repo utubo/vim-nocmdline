@@ -30,7 +30,7 @@ also, Zen mode (emulates the next line). 🧘
   g:nocmdline.tail = "\ue0be"
   g:nocmdline.sep  = "\ue0bc"
   g:nocmdline.sub  = "\ue0bb"
-  nnoremap ZZ <ScriptCmd>nocmdline# ToggleZen()<CR>
+  nnoremap ZZ <ScriptCmd>nocmdline#ToggleZen()<CR>
   # You can disable nocmdline at VimEnter
   #g:nocmdline.at_start = 0
   ```
