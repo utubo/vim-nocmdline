@@ -59,7 +59,8 @@ def Truncate(s: string, vc: number): string
     return '<'
   endif
   const a = s->split('.\zs')->reverse()->join('')
-  return '<' .. printf($'%.{vc - 1}S', a .. ' ')->split('.\zs')->reverse()->join('')
+  const b = '<' .. printf($'%.{vc - 1}S', a)->split('.\zs')->reverse()->join('')
+  return printf($'%.{vc}S', b)
 enddef
 
 # --------------------
@@ -429,7 +430,7 @@ def EchoStlWin(winid: number)
   left = Truncate(left, maxleft)
 
   # Middle spaces
-  left = printf($'%-{maxleft}s', left)
+  left = printf($'%-{maxleft}S', left)
 
   # Echo content
   echoh NoCmdline
