@@ -279,8 +279,6 @@ def UpdateMode()
   const sep_style = g:nocmdline.sep ==# ' ' ? 'reverse' : 'NONE'
   const x = has('gui') ? 'gui' : 'cterm'
   execute $'hi! NoCmdline_m_s {x}fg={mc.bg} {x}bg={st.bg} {x}={sep_style}'
-
-  EchoStl({ redraw: true })
 enddef
 
 
