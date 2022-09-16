@@ -95,19 +95,19 @@ export def Init()
     zen: 0,
     delay: &updatetime / 1000,
   }
-  w:nocmdline = { m: '' }
   g:nocmdline->extend(override)
+  w:nocmdline = { m: '' }
   set noruler
   set noshowcmd
   set laststatus=0
   augroup nocmdline
     au!
     au ColorScheme * Silent(Invalidate)
-    au WinNew,WinClosed,TabEnter * g:nocmdline.winupdated = 1
-    au WinNew,WinEnter * SaveWinSize()|Silent(Invalidate)
-    au WinLeave * Silent(ClearMode)
+    au WinNew,WinClosed,TabLeave * g:nocmdline.winupdated = 1
+    au WinEnter * Silent(Update)|SaveWinSize() # for check scroll
+    au WinLeave * Silent(ClearMode)|Silent(Invalidate)
     au WinScrolled * Silent(OnSizeChangedOrScrolled)
-    au ModeChanged [^c]:* Silent(Invalidate)
+    au ModeChanged [^c]:* Silent(UpdateMode)|Silent(Invalidate)
     au ModeChanged c:* timer_start(g:nocmdline.delay, 'nocmdline#Invalidate')
     au TabEnter * Silent(Invalidate)
     au OptionSet fileencoding,readonly,modifiable Silent(Invalidate)
