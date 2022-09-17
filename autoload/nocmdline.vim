@@ -70,10 +70,13 @@ enddef
 export def Init()
   const override = get(g:, 'nocmdline', {})
   g:nocmdline = {
-    format: '%t %m%r %=%|%3l:%-2c',
-    tail: ' ',
-    sep: ' ',
+    format: '%t %m%r %=%|%3l:%-2c ',
+    tail: '',
+    tail_style: 'NONE',
+    sep: '',
+    sep_style: 'NONE',
     sub: '|',
+    sub_style: 'NONE',
     horiz: '-',
     mode: {
       n:    'Normal',
@@ -209,13 +212,9 @@ def SetupColor()
   endfor
   const nm = GetFgBg('Normal')
   const st = GetFgBg('NoCmdline')
-  const dd = GetFgBg('NoCmdlineModeNC')
-  const zz = GetFgBg(g:nocmdline.last_hl)
-  const sep_style = g:nocmdline.sep ==# ' ' ? 'reverse' : 'NONE'
-  execute $'hi! NoCmdline_s_n {x}fg={nm.bg} {x}bg={st.bg}'
-  execute $'hi! NoCmdline_z_n {x}fg={nm.bg} {x}bg={zz.bg}'
-  execute $'hi! NoCmdline_n_d {x}fg={nm.bg} {x}bg={dd.bg}'
-  execute $'hi! NoCmdline_d_s {x}fg={dd.bg} {x}bg={st.bg} {x}={sep_style}'
+  const nc = GetFgBg('NoCmdlineModeNC')
+  execute $'hi! NoCmdline_stnm {x}fg={st.bg} {x}bg={nm.bg} {x}={g:nocmdline.tail_style}'
+  execute $'hi! NoCmdline_ncst {x}fg={nc.bg} {x}bg={st.bg} {x}={g:nocmdline.sep_style}'
 enddef
 
 # --------------------
@@ -228,11 +227,10 @@ def SetupStl()
     return
   endif
   const mode   = '%#NoCmdline_m#%{w:nocmdline.m}%#NoCmdline_m_s#%{w:nocmdline.sep}'
-  const modeNC = '%#NoCmdlineModeNC#%{w:nocmdline.mNC}%#NoCmdline_d_s#%{w:nocmdline.sepNC}'
+  const modeNC = '%#NoCmdlineModeNC#%{w:nocmdline.mNC}%#NoCmdline_ncst#%{w:nocmdline.sepNC}'
   const tail   = '%#NoCmdline_z_n#%{g:nocmdline.tail}'
   const format = '%#NoCmdline#%<' .. g:nocmdline.format->substitute('%\@<!%|', '%{nocmdline.sub}', 'g')
   &statusline = $'{mode}{modeNC}{format}{tail}%#Normal# '
-  g:nocmdline.last_hl = matchlist(format, '^.*%\#\([^#]\+\)\#')[1]
 enddef
 
 # --------------------
@@ -276,9 +274,8 @@ def UpdateMode()
   execute $'hi! link NoCmdline_m {mode_color}'
   const st = GetFgBg('StatusLine')
   const mc = GetFgBg(mode_color)
-  const sep_style = g:nocmdline.sep ==# ' ' ? 'reverse' : 'NONE'
   const x = has('gui') ? 'gui' : 'cterm'
-  execute $'hi! NoCmdline_m_s {x}fg={mc.bg} {x}bg={st.bg} {x}={sep_style}'
+  execute $'hi! NoCmdline_m_s {x}fg={mc.bg} {x}bg={st.bg} {x}={g:nocmdline.sep_style}'
 enddef
 
 
@@ -413,7 +410,7 @@ def EchoStlWin(winid: number)
   else
     echoh NoCmdlineModeNC
     echon mode_name
-    echoh NoCmdline_d_s
+    echoh NoCmdline_ncst
     echon g:nocmdline.sep
   endif
 
@@ -437,7 +434,7 @@ def EchoStlWin(winid: number)
   echon left .. right
 
   # Echo tail
-  echoh NoCmdline_s_n
+  echoh NoCmdline_stnm
   echon g:nocmdline.tail
   echoh Normal
 enddef

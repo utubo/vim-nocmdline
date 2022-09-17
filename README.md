@@ -72,6 +72,9 @@ Zen echos the next line instead of statusline.
 - `sub`  
   the char of the sub-separators.  
   default is `|`
+- `tail_style`, `sep_style`, `sub_style`  
+  the hilight style of serpators.  
+  default is `NONE`.
 - `horiz`  
   the char of the horizontal line on zen mode.
 - `format`  
