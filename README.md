@@ -28,6 +28,7 @@ also, Zen mode (emulates the next line). 🧘
   g:nocmdline.format = '%t %m%r %=%`%3l:%-2c%`%{&ff} %{&fenc} %L'
   # require nerd fonts
   g:nocmdline.tail = "\ue0be"
+  g:nocmdline.tail_style = "reverse"
   g:nocmdline.sep  = "\ue0bc"
   g:nocmdline.sub  = "\ue0bb"
   nnoremap ZZ <ScriptCmd>nocmdline#ToggleZen()<CR>
