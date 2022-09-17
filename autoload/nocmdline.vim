@@ -283,11 +283,9 @@ enddef
 # Echo Statusline
 # --------------------
 
-def ExpandFunc(buf: number, expr_: string): string
-  var expr = expr_
-    ->substitute('^[a-zA-Z_]\+$', 'g:\0', '')
-    ->substitute('&[a-z]\+', $'getbufvar({buf}, "\0")', 'g')
-  return nocmdline_legacy#Execute($'echon {expr}')
+def ExpandFunc(winid: number, buf: number, expr_: string): string
+  var expr = expr_->substitute('^[a-zA-Z_]\+$', 'g:\0', '')
+  return nocmdline_legacy#WinExecute(winid, $'echon {expr}')
 enddef
 
 def Expand(fmt: string, winid: number, winnr: number): string
@@ -300,7 +298,7 @@ def Expand(fmt: string, winid: number, winnr: number): string
     ->substitute('%\@<!%m', (getbufvar(buf, '&modified') ? getbufvar(buf, '&modifiable') ? '[+]' : '[+-]' : ''), 'g')
     ->substitute('%\@<!%|', g:nocmdline.sub, 'g')
     ->substitute('%\@<!%t', bufname(winbufnr(winnr)), 'g')
-    ->substitute('%\@<!%{\([^}]*\)}', (m) => ExpandFunc(buf, m[1]), 'g')
+    ->substitute('%\@<!%{\([^}]*\)}', (m) => ExpandFunc(winid, buf, m[1]), 'g')
     ->substitute('%%', '%', 'g')
 enddef
 

@@ -1,4 +1,4 @@
 " emulate `%{expr}` of statusline
-function! nocmdline_legacy#Execute(expr)
-	return execute(a:expr)
+function! nocmdline_legacy#WinExecute(winid, expr)
+	return win_execute(a:winid, a:expr)
 endfunction
