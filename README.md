@@ -101,6 +101,7 @@ c N   Column number (byte index).
 and `%|` sugar-coats `%{g:nocmdline.sub}`
 
 `%{expr}` evalute expr with legacy vimscript. (not vim9script)
+the global variables need `g:`.
 
 #### `g:nocmdline.mode`
 see `:help mode()`.

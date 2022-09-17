@@ -119,6 +119,9 @@ g:nocmdline.format					*g:nocmdline.format*
 
 	and `%|` sugar-coats `%{g:nocmdline.sub}`
 
+	`%{expr}` evalute expr with legacy vimscript. (not vim9script)
+	global variables need `g:`.
+
 g:nocmdline.mode					*g:nocmdline.mode*
 	see `:help mode()` .
 >
