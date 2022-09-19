@@ -284,7 +284,7 @@ enddef
 # --------------------
 
 def ExpandFunc(winid: number, buf: number, expr_: string): string
-  var expr = expr_->substitute('^[a-zA-Z_]\+$', 'g:\0', '')
+  var expr = expr_->substitute('^[]a-zA-Z_\.[]\+$', 'g:\0', '')
   return nocmdline_legacy#WinExecute(winid, $'echon {expr}')
 enddef
 
