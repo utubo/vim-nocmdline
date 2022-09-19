@@ -226,9 +226,9 @@ def SetupStl()
     &statusline = '%#NoCmdlineHoriz#%{nocmdline#HorizLine()}'
     return
   endif
-  const mode   = '%#NoCmdline_m#%{w:nocmdline.m}%#NoCmdline_m_s#%{w:nocmdline.sep}'
+  const mode   = '%#NoCmdline_md#%{w:nocmdline.m}%#NoCmdline_mdst#%{w:nocmdline.sep}'
   const modeNC = '%#NoCmdlineModeNC#%{w:nocmdline.mNC}%#NoCmdline_ncst#%{w:nocmdline.sepNC}'
-  const tail   = '%#NoCmdline_z_n#%{g:nocmdline.tail}'
+  const tail   = '%#NoCmdline_stnm#%{g:nocmdline.tail}'
   const format = '%#NoCmdline#%<' .. g:nocmdline.format->substitute('%\@<!%|', '%{nocmdline.sub}', 'g')
   &statusline = $'{mode}{modeNC}{format}{tail}%#Normal# '
 enddef
@@ -271,11 +271,11 @@ def UpdateMode()
 
   # Color
   const mode_color = colors[m][0]
-  execute $'hi! link NoCmdline_m {mode_color}'
+  execute $'hi! link NoCmdline_md {mode_color}'
   const st = GetFgBg('StatusLine')
   const mc = GetFgBg(mode_color)
   const x = has('gui') ? 'gui' : 'cterm'
-  execute $'hi! NoCmdline_m_s {x}fg={mc.bg} {x}bg={st.bg} {x}={g:nocmdline.sep_style}'
+  execute $'hi! NoCmdline_mdst {x}fg={mc.bg} {x}bg={st.bg} {x}={g:nocmdline.sep_style}'
 enddef
 
 
@@ -411,7 +411,7 @@ def EchoStlWin(winid: number)
   )
   if ww <= minwidth
     if winnr() ==# winnr
-      echoh NoCmdline_m
+      echoh NoCmdline_md
     else
       echoh NoCmdlineModeNC
     endif
@@ -421,9 +421,9 @@ def EchoStlWin(winid: number)
 
   const ss = getwinvar(winnr, 'nocmdline')
   if winnr() ==# winnr
-    echoh NoCmdline_m
+    echoh NoCmdline_md
     echon mode_name
-    echoh NoCmdline_m_s
+    echoh NoCmdline_mdst
     echon g:nocmdline.sep
   else
     echoh NoCmdlineModeNC
