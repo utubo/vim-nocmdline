@@ -333,7 +333,7 @@ enddef
 
 def EchoNextLine(winid: number, winnr: number)
   # TODO: The line is dolubled when botline is wrapped.
-  var linenr = line('w$')
+  var linenr = line('w$', winid)
   if foldclosed(linenr) != -1
     linenr = foldclosedend(linenr)
   endif
