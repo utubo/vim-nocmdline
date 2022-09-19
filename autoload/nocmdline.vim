@@ -331,15 +331,22 @@ def EchoStl(opt: any = { redraw: false })
   endfor
 enddef
 
+def WinGetLn(winid: number, linenr: number, com: string): string
+  return win_execute(winid, $'echon {com}({linenr})')
+enddef
+
 def EchoNextLine(winid: number, winnr: number)
   # TODO: The line is dolubled when botline is wrapped.
   var linenr = line('w$', winid)
-  if foldclosed(linenr) != -1
-    linenr = foldclosedend(linenr)
+  const fce = WinGetLn(winid, linenr, 'foldclosedend')
+  if fce !=# '-1'
+    linenr = str2nr(fce)
   endif
   linenr += 1
-  const folded = foldclosed(linenr) !=# -1
-  var text = folded ? foldtextresult(linenr) : NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
+  const folded = WinGetLn(winid, linenr, 'foldclosed') !=# '-1'
+  var text = folded ?
+    WinGetLn(winid, linenr, 'foldtextresult') :
+    NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
   const ts = getwinvar(winnr, '&tabstop')
   text = text
     ->substitute('\(^\|\t\)\@<=\t', repeat(' ', ts), 'g')
