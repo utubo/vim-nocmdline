@@ -332,9 +332,14 @@ def EchoStl(opt: any = { redraw: false })
 enddef
 
 def EchoNextLine(winid: number, winnr: number)
-  const linenr = line('w$', winid) + 1 # TODO: The line is dolubled when botline is wrapped.
+  # TODO: The line is dolubled when botline is wrapped.
+  # TODO: support foldtext
+  const linenr = line('w$', winid) + 1
   const lines = NVL(getbufline(winbufnr(winnr), linenr), [''])
-  const text = lines[0]->substitute('\t', repeat(' ', &tabstop), 'g') # TODO: foldtext
+  const ts = getwinvar(winnr, '&tabstop')
+  const text = lines[0]
+    ->substitute('\(^\|\t\)\@<=\t', repeat(' ', ts), 'g')
+    ->substitute('\(.*\)\t', (m) => (m[1] .. repeat(' ', ts - strdisplaywidth(m[1]) % ts)), 'g')
   const textoff = getwininfo(winid)[0].textoff
   var width = winwidth(winnr) - 2 - textoff
   # eob
