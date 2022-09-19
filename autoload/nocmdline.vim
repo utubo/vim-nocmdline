@@ -333,11 +333,15 @@ enddef
 
 def EchoNextLine(winid: number, winnr: number)
   # TODO: The line is dolubled when botline is wrapped.
-  # TODO: support foldtext
-  const linenr = line('w$', winid) + 1
-  const lines = NVL(getbufline(winbufnr(winnr), linenr), [''])
+  var linenr = line('w$')
+  if foldclosed(linenr) != -1
+    linenr = foldclosedend(linenr)
+  endif
+  linenr += 1
+  const folded = foldclosed(linenr) !=# -1
+  var text = folded ? foldtextresult(linenr) : NVL(getbufline(winbufnr(winnr), linenr), [''])[0]
   const ts = getwinvar(winnr, '&tabstop')
-  const text = lines[0]
+  text = text
     ->substitute('\(^\|\t\)\@<=\t', repeat(' ', ts), 'g')
     ->substitute('\(.*\)\t', (m) => (m[1] .. repeat(' ', ts - strdisplaywidth(m[1]) % ts)), 'g')
   const textoff = getwininfo(winid)[0].textoff
@@ -363,7 +367,11 @@ def EchoNextLine(winid: number, winnr: number)
     endif
   endif
   # text
-  echoh Normal
+  if folded
+    echoh Folded
+  else
+    echoh Normal
+  endif
   if strdisplaywidth(text) <= width
     echon printf($'%-{width + 1}S', text)
   else
