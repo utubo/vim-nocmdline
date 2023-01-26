@@ -1,4 +1,12 @@
-# vim-nocmdline
+# This plugin is renamed to https://github.com/utubo/vim-cmdheight0.
+
+Migrate your `.vimrc`.
+```vimscript
+:%s/nocmdline/cmdheight0/g
+```
+
+
+# Deprecated
 
 ⚠ THIS HAS MANY BUGS !  
 📜 Powered by vim9script
